@@ -8,6 +8,9 @@ public class Grabber : MonoBehaviour
     private int pposx;
     private int pposy;
     public Material rouge;
+    private int level;
+    public TuileCodex codex;
+    public string newtag;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +25,11 @@ public class Grabber : MonoBehaviour
         {
             RaycastHit hit = CastRay();
             selectedObject = hit.collider.gameObject;
-            selectedObject.tag = "V1";
-            selectedObject.GetComponent<MeshRenderer>().material = rouge;
+            if (selectedObject.tag =="vide")
+            {
+
+                selectedObject.tag = "V1";
+            }
         }
     }
 
@@ -41,5 +47,7 @@ public class Grabber : MonoBehaviour
         Physics.Raycast(worldMousePosNear, worldMousePosFar - worldMousePosNear, out hit);
         return hit;
     }
+
+    
 
 }
