@@ -18,10 +18,8 @@ public class GridBoard : MonoBehaviour
             for(int y = 0; y < 12;y++)
             {
                 posx = x;
-
                 posy = y;
-                
-               if(x%2 == 1)
+                if(x%2 == 1)
                 {
                     posy += 0.5f;
                    

@@ -7,16 +7,24 @@ public class Grabber : MonoBehaviour
     public GameObject selectedObject;
     private int pposx;
     private int pposy;
+    public Material rouge;
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
 
+        
+
+    }
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit = CastRay();
+            selectedObject = hit.collider.gameObject;
+            selectedObject.tag = "V1";
+            selectedObject.GetComponent<MeshRenderer>().material = rouge;
+        }
     }
 
     private RaycastHit CastRay()//permet de tirer un rayon la ou le joueur clic peut importe la direction de la camera
