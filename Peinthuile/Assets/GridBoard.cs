@@ -9,11 +9,8 @@ public class GridBoard : MonoBehaviour
     private float posy;
     public GameObject tuile;
     public GameObject[,] grille;
-    public GameObject Player;
     void Start()
     {
-        Player = Instantiate(Player);
-        Player.GetComponent<CharacterMovement>().board = GetComponent<GridBoard>();
         grille = new GameObject[12, 12];
 
         for(int x= 0; x < 12;x++)
@@ -34,8 +31,6 @@ public class GridBoard : MonoBehaviour
             }
         }
     }
-
-    // Update is called once per frame
    
 
 }
