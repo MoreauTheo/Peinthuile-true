@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class Grabber : MonoBehaviour
 {
-    public GameObject selectedObject;
-    private int pposx;
-    private int pposy;
-    public Material rouge;
-    private int level;
-    public TuileCodex codex;
+    private GridBoard board;
+    private GameObject selectedObject;
+    public int pposx;
+    public int pposy;
+    private string level;
+    private TuileCodex codex;
     public string newtag;
+    private PiocheScript pioche;
+    private bool pose;
     // Start is called before the first frame update
     void Start()
     {
+        board = GetComponent<GridBoard>();
+        codex = GetComponent<TuileCodex>();
+        pioche = GetComponent<PiocheScript>();
 
         
 
@@ -21,14 +26,31 @@ public class Grabber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit = CastRay();
-            selectedObject = hit.collider.gameObject;
-            if (selectedObject.tag =="vide")
-            {
 
-                selectedObject.tag = "V1";
+            RaycastHit hit = CastRay();
+            if(hit.collider) {
+                
+                selectedObject = hit.collider.gameObject;
+                Debug.Log(selectedObject.tag);
+                if (selectedObject.tag =="vide")
+                {
+                    PoseTuile(pioche.current);
+                }
+                else if(selectedObject.tag.Substring(0, selectedObject.tag.Length - 1) != pioche.current.Substring(0, pioche.current.Length-1) && selectedObject.tag.Length <4)
+                {
+                    Debug.Log(selectedObject.tag.Substring(0, selectedObject.tag.Length - 1));
+                    Debug.Log(pioche.current.Substring(0,pioche.current.Length - 1));
+                    FusionneTuile(pioche.current);
+                }
+                else
+                {
+                    Debug.Log("ENFIN!!!");
+                }
+                if(pose)
+                pioche.NextTurn();
             }
         }
     }
@@ -48,6 +70,37 @@ public class Grabber : MonoBehaviour
         return hit;
     }
 
-    
+    public void PoseTuile(string tuileAPoser)
+    {
+        TuileConfig cibleScript = new TuileConfig();
+        cibleScript = selectedObject.GetComponent<TuileConfig>();
+        board.grille[cibleScript.posx,cibleScript.posy] = Instantiate(codex.TouteTuiles[tuileAPoser], selectedObject.transform.position, selectedObject.transform.rotation);
+        Destroy(selectedObject);
+        pose = true;
+    }
+
+    public void FusionneTuile(string tuileAPoser)
+    {
+        level = selectedObject.tag.Substring(codex.TouteTuiles[tuileAPoser].tag.Length - 1, 1 );
+        newtag = selectedObject.tag.Substring(0, selectedObject.tag.Length - 1);
+        newtag = newtag + codex.TouteTuiles[tuileAPoser].tag.Substring(0, codex.TouteTuiles[tuileAPoser].tag.Length - 1);
+        newtag = Alphabetize(newtag);
+        newtag += level;
+        PoseTuile(newtag);
+
+    }
+
+    public static string Alphabetize(string s)
+    {
+        // Convert to char array.
+        // Convert to char array.
+        char[] a = s.ToCharArray();
+
+        // Sort letters.
+        Array.Sort(a);
+
+        // Return modified string.
+        return new string(a);
+    }
 
 }

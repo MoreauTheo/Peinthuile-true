@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 6532706830573801710}
   - component: {fileID: 8150198223158150802}
   - component: {fileID: 371585351938988919}
-  - component: {fileID: -988003213124088014}
+  - component: {fileID: 2968904500352296503}
   m_Layer: 0
-  m_Name: Hexagone
-  m_TagString: vide
+  m_Name: C1
+  m_TagString: C1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6478536213147159724, guid: 5458f4300cc271d4abcd931eba4e1a4c, type: 3}
+  - {fileID: 2100000, guid: ca1c2fc71e0b9214e9640c432502abda, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,7 +107,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2124705421725058983, guid: 5458f4300cc271d4abcd931eba4e1a4c, type: 3}
---- !u!114 &-988003213124088014
+--- !u!114 &2968904500352296503
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,4 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169840cd863c21e49ad376e55ff5e095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  posx: 0
+  posy: 0
   codex: {fileID: 0}

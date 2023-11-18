@@ -8,6 +8,21 @@ TagManager:
   - V1
   - V2
   - V3
+  - F1
+  - F2
+  - F3
+  - C1
+  - C2
+  - C3
+  - CF1
+  - CF2
+  - CF3
+  - CV1
+  - CV2
+  - CV3
+  - FV1
+  - FV2
+  - FV3
   layers:
   - Default
   - TransparentFX

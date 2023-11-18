@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TuileConfig : MonoBehaviour
 {
+    public int posx;
+    public int posy;
     public TuileCodex codex;
     void Start()
     {
