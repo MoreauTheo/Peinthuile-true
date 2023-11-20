@@ -21,10 +21,10 @@ public class GridBoard : MonoBehaviour
                 posy = y;
                 if(x%2 == 1)
                 {
-                    posy += 0.45f;
+                    posy += 0.5f;
                    
                 }
-                grille[x,y] = Instantiate(tuile,new Vector3(posx,0,posy + 0.05f),Quaternion.identity);
+                grille[x,y] = Instantiate(tuile,new Vector3(posx,0,posy * 1.1f),Quaternion.identity);
                 grille[x, y].transform.Rotate(new Vector3(90, 0, 30));
                 grille[x, y].GetComponent<TuileConfig>().posx = x;
                 grille[x, y].GetComponent<TuileConfig>().posy = y;
