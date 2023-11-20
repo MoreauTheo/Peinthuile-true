@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MovementCamera : MonoBehaviour
@@ -7,6 +8,8 @@ public class MovementCamera : MonoBehaviour
     private Vector3 m_Position;
     public float zoomSpeed;
     public float camSpeed;
+    public float rotSpeed;
+    public Transform pivot;
     void Start()
     {
         
@@ -19,32 +22,39 @@ public class MovementCamera : MonoBehaviour
         {
             if (transform.position.y > 5)
             {
-                transform.position += transform.forward * Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed;
+               ZoomCamera();
             }
+
             if (Input.mouseScrollDelta.y < 0)
             {
-                transform.position += transform.forward * Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed;
+                ZoomCamera();
             }
         }
         else if (Input.mouseScrollDelta.y > 0)
         {
-            transform.position += transform.forward * Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed;
+            ZoomCamera();
         }
 
+        Vector3 movementMouse = m_Position - Input.mousePosition;
 
-        if(Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1))
         {
-            Vector3 movementMouse = m_Position - Input.mousePosition;
-            transform.position += new Vector3(movementMouse.x,0,movementMouse.y)*Time.deltaTime;
+            Vector3 mouvement = ((pivot.right * movementMouse.x)+(pivot.forward * movementMouse.y)) * Time.deltaTime * camSpeed; 
+            pivot.position += mouvement;
         }
 
-
-
-
-
-
-
+        if(Input.GetMouseButton(2))
+        {
+            pivot.Rotate(0, -movementMouse.x * Time.deltaTime * rotSpeed, 0);
+        }
 
     m_Position = Input.mousePosition;
+
+    }
+
+    void ZoomCamera()
+    {
+        transform.position += transform.forward * Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed;
+        transform.Rotate(-2.36f * Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed, 0, 0);
     }
 }
