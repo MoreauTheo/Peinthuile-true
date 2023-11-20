@@ -253,6 +253,8 @@ MonoBehaviour:
   - F1
   - C1
   current: 
+  nbPioche: 20
+  score: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

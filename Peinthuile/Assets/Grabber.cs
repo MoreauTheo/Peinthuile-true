@@ -26,32 +26,30 @@ public class Grabber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if (Input.GetMouseButtonDown(0))
+        if (pioche.nbPioche > 0)
         {
-
-            RaycastHit hit = CastRay();
-            if(hit.collider) {
-                
-                selectedObject = hit.collider.gameObject;
-                Debug.Log(selectedObject.tag);
-                if (selectedObject.tag =="vide")
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit = CastRay();
+                if (hit.collider)
                 {
-                    PoseTuile(pioche.current);
+                    selectedObject = hit.collider.gameObject;
+                    if (selectedObject.tag == "vide")
+                    {
+                        PoseTuile(pioche.current);
+                    }
+                    else if (selectedObject.tag.Substring(0, selectedObject.tag.Length - 1) != pioche.current.Substring(0, pioche.current.Length - 1) && selectedObject.tag.Length < 4)
+                    {
+                        FusionneTuile(pioche.current);
+                    }
+                    if (pose)
+                        pioche.NextTurn();
                 }
-                else if(selectedObject.tag.Substring(0, selectedObject.tag.Length - 1) != pioche.current.Substring(0, pioche.current.Length-1) && selectedObject.tag.Length <4)
-                {
-                    Debug.Log(selectedObject.tag.Substring(0, selectedObject.tag.Length - 1));
-                    Debug.Log(pioche.current.Substring(0,pioche.current.Length - 1));
-                    FusionneTuile(pioche.current);
-                }
-                else
-                {
-                    Debug.Log("ENFIN!!!");
-                }
-                if(pose)
-                pioche.NextTurn();
             }
+        }
+        else
+        {
+            Debug.Log("pêrdu");
         }
     }
 
@@ -90,7 +88,22 @@ public class Grabber : MonoBehaviour
 
     }
 
-    public static string Alphabetize(string s)
+
+
+    public void PreviewFusionneTuile(string tuileAPoser)
+    {
+        level = selectedObject.tag.Substring(codex.TouteTuiles[tuileAPoser].tag.Length - 1, 1);
+        newtag = selectedObject.tag.Substring(0, selectedObject.tag.Length - 1);
+        newtag = newtag + codex.TouteTuiles[tuileAPoser].tag.Substring(0, codex.TouteTuiles[tuileAPoser].tag.Length - 1);
+        newtag = Alphabetize(newtag);
+        newtag += level;
+        PoseTuile(newtag);
+
+    }
+
+
+
+    public string Alphabetize(string s)
     {
         // Convert to char array.
         // Convert to char array.
@@ -103,4 +116,13 @@ public class Grabber : MonoBehaviour
         return new string(a);
     }
 
+
+    public void Preview()
+    {
+        RaycastHit hit = CastRay();
+        if (hit.collider)
+        {
+            selectedObject = hit.collider.gameObject;
+        }
+    }
 }

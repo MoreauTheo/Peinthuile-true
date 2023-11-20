@@ -6,6 +6,8 @@ public class PiocheScript : MonoBehaviour
 {
     public List<string> poolPiochable;
     public string current;
+    public int nbPioche;
+    public int score;
     void Start()
     {
         NextTurn();
@@ -19,6 +21,7 @@ public class PiocheScript : MonoBehaviour
     public void NextTurn()
     {
         current = poolPiochable[Random.Range(0,poolPiochable.Count)];
+        nbPioche--;
     }
 
 }
