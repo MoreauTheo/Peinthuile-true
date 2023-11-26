@@ -5,9 +5,13 @@ using System;
 using Unity.Mathematics;
 using System.Threading;
 using UnityEditor.SceneManagement;
-
+using UnityEngine.UI;
+using TMPro;
 public class Grabber : MonoBehaviour
 {
+    private GameObject PreviewTile;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI piocheText;
     private GridBoard board;
     private GameObject selectedObject;
     public int pposx;
@@ -17,12 +21,20 @@ public class Grabber : MonoBehaviour
     public string newtag;
     private PiocheScript pioche;
     private bool pose;
+    public float score;
     // Start is called before the first frame update
     void Start()
     {
+        PreviewTile = GameObject.Find("PreviewTile");
+        score = 0;
         board = GetComponent<GridBoard>();
         codex = GetComponent<TuileCodex>();
         pioche = GetComponent<PiocheScript>();
+        checkBoardLvlUp();
+        ApplyScoring();
+        pioche.Draw();
+        pioche.nbPioche++;
+        ChangePreview();
 
         
 
@@ -41,6 +53,7 @@ public class Grabber : MonoBehaviour
                     if (selectedObject.tag == "vide")
                     {
                         PoseTuile(pioche.current,selectedObject);
+                        score += Scoring(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
                     }
                     else if (selectedObject.tag.Substring(0, selectedObject.tag.Length - 1) != pioche.current.Substring(0, pioche.current.Length - 1) && selectedObject.tag.Length < 4)
                     {
@@ -58,10 +71,18 @@ public class Grabber : MonoBehaviour
         }
     }
 
+    public void ApplyScoring()
+    {
+        scoreText.text = score.ToString();
+        piocheText.text = pioche.nbPioche.ToString();
+    }
+
     public void NextTurn()
     {
         checkBoardLvlUp();
+        ApplyScoring();
         pioche.Draw();
+        ChangePreview();
     }
 
     private RaycastHit CastRay()//permet de tirer un rayon la ou le joueur clic peut importe la direction de la camera
@@ -103,7 +124,35 @@ public class Grabber : MonoBehaviour
 
 
 
+    public float Scoring(string tuilePose,int x,int y)
+    {
+        float scoreSup = 0;
+        foreach(GameObject check in checkAround(x,y))
+        {
+            if(check.tag != "vide")
+            {
+                scoreSup+= GetLevelTile(check.tag);
+            }
+            if(GetTag(tuilePose) == "F" && GetTag(check.tag) == "V")
+            {
+                scoreSup += GetLevelTile(check.tag);
+            }
+            if (GetTag(tuilePose) == "V" && GetTag(check.tag) == "E")
+            {
+                scoreSup += GetLevelTile(check.tag);
+            }
+            if (GetTag(tuilePose) == "C" && GetTag(check.tag) == "F")
+            {
+                scoreSup += GetLevelTile(check.tag);
+            }
+            if (GetTag(tuilePose) == "E" && GetTag(check.tag) == "C")
+            {
+                scoreSup += GetLevelTile(check.tag);
+            }
 
+        }
+        return scoreSup;
+    }
     
 
     public string Alphabetize(string s)
@@ -169,7 +218,17 @@ public class Grabber : MonoBehaviour
             }
         }
     }
-
+    public void ChangePreview()
+    {
+        GameObject asupr = PreviewTile;
+        PreviewTile = Instantiate(codex.TouteTuiles[pioche.current], PreviewTile.transform.position, PreviewTile.transform.rotation);
+        PreviewTile.layer = LayerMask.NameToLayer("Preview");
+        foreach(Transform child in PreviewTile.transform)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("Preview");
+        }
+        Destroy(asupr );
+    }
     public bool CheckTileIndividualy(int x,int y,string tagCheck, string tagCount,int levelUp)
     {
         bool checkUpgrade = false;
