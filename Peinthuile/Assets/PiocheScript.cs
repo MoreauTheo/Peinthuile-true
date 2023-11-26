@@ -9,7 +9,6 @@ public class PiocheScript : MonoBehaviour
     public int nbPioche;
     void Start()
     {
-        Draw();
     }
 
     // Update is called once per frame
