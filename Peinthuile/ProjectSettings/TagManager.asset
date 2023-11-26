@@ -23,6 +23,18 @@ TagManager:
   - FV1
   - FV2
   - FV3
+  - E1
+  - E2
+  - E3
+  - EF1
+  - EF2
+  - EF3
+  - EV1
+  - EV2
+  - EV3
+  - CE1
+  - CE2
+  - CE3
   layers:
   - Default
   - TransparentFX

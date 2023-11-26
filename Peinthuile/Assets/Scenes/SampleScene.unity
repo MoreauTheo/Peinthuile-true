@@ -230,9 +230,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f3b6296e27e8b4fba2d95a6762af21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  V1: {fileID: 4898462632327491644, guid: a7996c5fe196bae4d8f71bbb37055874, type: 3}
+  V1: {fileID: 2117264685728767947, guid: 9dcc50828a8294547b106566f1946596, type: 3}
+  V2: {fileID: 4898462632327491644, guid: a7996c5fe196bae4d8f71bbb37055874, type: 3}
+  V3: {fileID: 4898462632327491644, guid: 39ba80d96cfcfc04bba99f204995a9ff, type: 3}
   F1: {fileID: 4898462632327491644, guid: 3c3b68de58aa29e438d569ff85d734f5, type: 3}
+  F2: {fileID: 2187272552694642665, guid: 61a95105cc8008d469c705b1f9c1a093, type: 3}
+  F3: {fileID: 2187272552694642665, guid: 1db3f14e34856354aa421ba67153dd04, type: 3}
   C1: {fileID: 4898462632327491644, guid: ef82fb668ce735e4c956f2f1225f07be, type: 3}
+  C2: {fileID: 4898462632327491644, guid: bd4a722d18dd8de4e9f705d4350ee06a, type: 3}
+  C3: {fileID: 4898462632327491644, guid: f073b7f754c55d045a54f9dcf67190d3, type: 3}
+  E1: {fileID: 4898462632327491644, guid: 9763ebea96722cb4abd3b31672b219bf, type: 3}
+  E2: {fileID: 4898462632327491644, guid: a89463b406e6cea46a475a68e24e8b92, type: 3}
+  E3: {fileID: 4898462632327491644, guid: f30a87b8ee0d424438bc768ee152f7c5, type: 3}
   CV1: {fileID: 4898462632327491644, guid: 974ce197aaa2b224187b2857a3644f09, type: 3}
   CF1: {fileID: 4898462632327491644, guid: 36f5d757387846c4b8eb9fef745b3624, type: 3}
   FV1: {fileID: 4898462632327491644, guid: af8b1d90c6fe82a40b47f1934ff6870f, type: 3}
@@ -252,6 +261,7 @@ MonoBehaviour:
   - V1
   - F1
   - C1
+  - E1
   current: 
   nbPioche: 20
   score: 0

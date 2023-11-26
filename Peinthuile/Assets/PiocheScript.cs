@@ -10,7 +10,7 @@ public class PiocheScript : MonoBehaviour
     public int score;
     void Start()
     {
-        NextTurn();
+        Draw();
     }
 
     // Update is called once per frame
@@ -18,10 +18,11 @@ public class PiocheScript : MonoBehaviour
     {
         
     }
-    public void NextTurn()
+    public void Draw()
     {
         current = poolPiochable[Random.Range(0,poolPiochable.Count)];
         nbPioche--;
+        Debug.Log(current);
     }
 
 }
