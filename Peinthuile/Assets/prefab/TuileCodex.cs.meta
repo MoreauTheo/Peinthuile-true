@@ -3,7 +3,22 @@ guid: 45f3b6296e27e8b4fba2d95a6762af21
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - V1: {instanceID: 0}
+  - V2: {instanceID: 0}
+  - V3: {instanceID: 0}
+  - F1: {instanceID: 0}
+  - F2: {instanceID: 0}
+  - F3: {instanceID: 0}
+  - C1: {instanceID: 0}
+  - C2: {instanceID: 0}
+  - C3: {instanceID: 0}
+  - E1: {instanceID: 0}
+  - E2: {instanceID: 0}
+  - E3: {instanceID: 0}
+  - CV1: {instanceID: 0}
+  - CF1: {instanceID: 0}
+  - FV1: {instanceID: 0}
   executionOrder: -50
   icon: {instanceID: 0}
   userData: 
