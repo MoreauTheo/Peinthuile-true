@@ -55,7 +55,7 @@ public class Grabber : MonoBehaviour
                         PoseTuile(pioche.current,selectedObject);
                         score += Scoring(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
                     }
-                    else if (selectedObject.tag.Substring(0, selectedObject.tag.Length - 1) != pioche.current.Substring(0, pioche.current.Length - 1) && selectedObject.tag.Length < 4)
+                    else if (selectedObject.tag.Substring(0, selectedObject.tag.Length - 1) != pioche.current.Substring(0, pioche.current.Length - 1) && selectedObject.tag.Length < 3)
                     {
                         FusionneTuile(pioche.current);
                     }
@@ -102,8 +102,7 @@ public class Grabber : MonoBehaviour
 
     public void PoseTuile(string tuileAPoser,GameObject aRemplacer)
     {
-        TuileConfig cibleScript = new TuileConfig();
-        cibleScript = aRemplacer.GetComponent<TuileConfig>();
+        TuileConfig cibleScript = aRemplacer.GetComponent<TuileConfig>();
         board.grille[cibleScript.posx,cibleScript.posy] = Instantiate(codex.TouteTuiles[tuileAPoser], aRemplacer.transform.position, aRemplacer.transform.rotation);
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posx = cibleScript.posx;
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posy = cibleScript.posy;
@@ -131,7 +130,9 @@ public class Grabber : MonoBehaviour
         {
             if(check.tag != "vide")
             {
-                scoreSup+= GetLevelTile(check.tag);
+                Debug.Log(check);
+                scoreSup += GetLevelTile(check.tag);
+                
             }
             if(GetTag(tuilePose) == "F" && GetTag(check.tag) == "V")
             {
@@ -307,6 +308,8 @@ public class Grabber : MonoBehaviour
     }
     public int GetLevelTile(string tagg)
     {
+        Debug.Log(tagg);
+        Debug.Log(tagg);
         return int.Parse(tagg.Substring(tagg.Length - 1, 1));
     }
 }
