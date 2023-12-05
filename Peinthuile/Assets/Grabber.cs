@@ -175,45 +175,53 @@ public class Grabber : MonoBehaviour
         {
             if(check.tag != "vide")
             {
-                if(GetLevelTile(check.tag)<3)
-                { 
-                int posix = check.GetComponent<TuileConfig>().posx;
-                int posiy = check.GetComponent<TuileConfig>().posy;
-                int newLevel = GetLevelTile(check.tag) + 1;
-                if (GetTag(check.tag) == "F")
+                if (GetLevelTile(check.tag) < 3)
                 {
-                    if (CheckTileIndividualy(posix,posiy,"C","E",newLevel))
+                    int posix = check.GetComponent<TuileConfig>().posx;
+                    int posiy = check.GetComponent<TuileConfig>().posy;
+                    int newLevel = GetLevelTile(check.tag) + 1;
+                    bool canLevelUp = true;
+                    foreach (char biome in GetTag(check.tag))
                     {
                         
-                        PoseTuile("F"+newLevel, check);
-                    }
-                }
+                        if (biome.ToString() == "F")
+                        {
+                            if (!CheckTileIndividualy(posix, posiy, "C", "E", newLevel))
+                            {
 
-                if (GetTag(check.tag) == "C")
-                {
-                    if (CheckTileIndividualy(posix, posiy, "E", "V", newLevel))
+                                canLevelUp = false;
+                            }
+                        }
+                        if (biome.ToString() == "C")
+                        {
+                            if (!CheckTileIndividualy(posix, posiy, "E", "V", newLevel))
+                            {
+
+                                canLevelUp = false;
+                            }
+                        }
+                        if (biome.ToString() == "E")
+                        {
+                            if (!CheckTileIndividualy(posix, posiy, "V", "F", newLevel))
+                            {
+
+                                canLevelUp = false;
+                            }
+                        }
+                        if (biome.ToString() == "V")
+                        {
+                            if (!CheckTileIndividualy(posix, posiy, "F", "C", newLevel))
+                            {
+
+                                canLevelUp = false;
+                            }
+                        }
+
+                    }
+                    if(canLevelUp)
                     {
-
-                        PoseTuile("C" + newLevel, check);
+                        PoseTuile(GetTag(check.tag) + newLevel, check);
                     }
-                }
-                if (GetTag(check.tag) == "E")
-                {
-                    if (CheckTileIndividualy(posix, posiy, "V", "F", newLevel))
-                    {
-
-                        PoseTuile("E" + newLevel, check);
-                    }
-                }
-                if (GetTag(check.tag) == "V")
-                {
-                    if (CheckTileIndividualy(posix, posiy, "F", "C", newLevel))
-                    {
-
-                        PoseTuile("V" + newLevel, check);
-                    }
-                    }
-
                 }
             }
         }

@@ -23,6 +23,9 @@ public class TuileCodex : MonoBehaviour
     public GameObject CV1;
     public GameObject CF1;
     public GameObject FV1;
+    public GameObject EV1;
+    public GameObject CE1;
+    public GameObject EF1;
     public Dictionary<string, GameObject> TouteTuiles = new Dictionary<string, GameObject>();
     void Start()
     {
@@ -45,6 +48,9 @@ public class TuileCodex : MonoBehaviour
         TouteTuiles.Add("CV1", CV1);
         TouteTuiles.Add("CF1", CF1);
         TouteTuiles.Add("FV1",FV1);
+        TouteTuiles.Add("EV1",EV1);
+        TouteTuiles.Add("EF1",EF1);
+        TouteTuiles.Add("CE1",CE1);
 
     }
 
