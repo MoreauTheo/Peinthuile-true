@@ -40,6 +40,7 @@ TagManager:
   - C4
   - E4
   - EV4
+  - FV4
   layers:
   - Default
   - TransparentFX
