@@ -22,6 +22,7 @@ public class Grabber : MonoBehaviour
     private PiocheScript pioche;
     private bool pose;
     public float score;
+    public float scorePreview;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,11 +45,14 @@ public class Grabber : MonoBehaviour
     {
         if (pioche.nbPioche > 0)
         {
-            if (Input.GetMouseButtonDown(0))
+
+
+            RaycastHit hit = CastRay();
+            if (hit.collider)
             {
-                RaycastHit hit = CastRay();
-                if (hit.collider)
+                if (Input.GetMouseButtonDown(0))
                 {
+                
                     selectedObject = hit.collider.gameObject;
                     if (selectedObject.tag == "vide")
                     {
@@ -61,6 +65,18 @@ public class Grabber : MonoBehaviour
                     }
                     if (pose)
                         NextTurn();
+                }
+                else
+                {
+                    selectedObject = hit.collider.gameObject;
+                    if(selectedObject.tag == "vide" )
+                    {
+                        scorePreview = ScoringPreview(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
+                    }
+                    else
+                    {
+                        scorePreview = 0;
+                    }
                 }
 
             }
@@ -121,7 +137,37 @@ public class Grabber : MonoBehaviour
 
     }
 
+    public float ScoringPreview(string tuilePose, int x, int y)
+    {
+        float scoreSup = 0;
+        foreach (GameObject check in checkAround(x, y))
+        {
+            if (check.tag != "vide")
+            {
+                Debug.Log(check);
+                scoreSup += GetLevelTile(check.tag);
 
+            }
+            if (GetTag(tuilePose) == "F" && GetTag(check.tag) == "V")
+            {
+                scoreSup += GetLevelTile(check.tag);
+            }
+            if (GetTag(tuilePose) == "V" && GetTag(check.tag) == "E")
+            {
+                scoreSup += GetLevelTile(check.tag);
+            }
+            if (GetTag(tuilePose) == "C" && GetTag(check.tag) == "F")
+            {
+                scoreSup += GetLevelTile(check.tag);
+            }
+            if (GetTag(tuilePose) == "E" && GetTag(check.tag) == "C")
+            {
+                scoreSup += GetLevelTile(check.tag);
+            }
+
+        }
+        return scoreSup;
+    }
 
     public float Scoring(string tuilePose,int x,int y)
     {
@@ -269,34 +315,28 @@ public class Grabber : MonoBehaviour
                 tuilesAutour.Add(board.grille[x, y + 1]);//tuile du dessus
                 if (x != 11)
                 {
-                    tuilesAutour.Add(board.grille[x + 1, y + (x % 2) - 1]);//coter droit bas
+                    tuilesAutour.Add(board.grille[x + 1, y + (x % 2) ]);//coter droit haut
                 }                    
                 if (x != 0)          
                 {                    
-                    tuilesAutour.Add(board.grille[x - 1, y - 1 + (x % 2)]);//coter gauche bas
+                    tuilesAutour.Add(board.grille[x - 1, y + (x % 2)]);//coter gauche haut
                 }
 
             }
             if (y != 0)
             {
                 tuilesAutour.Add(board.grille[x, y - 1]);//tuile du dessous
-            }
-            if (x != 0)//si c pas la tuile du dessous
-            {
-                if (y != 11)
+                if (x != 11)
                 {
-                    tuilesAutour.Add(board.grille[x - 1, y + (x % 2)]);//coter gauche haut
+                    tuilesAutour.Add(board.grille[x + 1, y -1 + (x % 2)]);//coter droit bas
                 }
-                if (y != 0)
-                    tuilesAutour.Add(board.grille[x - 1, y - 1 + (x % 2)]);//coter gauche bas
-            }
-            if (x != 11)
-            {
+                if (x != 0)
+                {
+                    tuilesAutour.Add(board.grille[x - 1, y -1+ (x % 2)]);//coter gauche bas
+                }
 
-
-                if (y != 11)
-                    tuilesAutour.Add(board.grille[x + 1, y + (x % 2)]);//coter droit haut
             }
+            
             return tuilesAutour;
 
     }
@@ -307,9 +347,7 @@ public class Grabber : MonoBehaviour
         return tagg.Substring(0, tagg.Length-1 );
     }
     public int GetLevelTile(string tagg)
-    {
-        Debug.Log(tagg);
-        Debug.Log(tagg);
+    { 
         return int.Parse(tagg.Substring(tagg.Length - 1, 1));
     }
 }
