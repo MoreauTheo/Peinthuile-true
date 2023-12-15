@@ -7,6 +7,8 @@ using System.Threading;
 using UnityEditor.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+
 public class Grabber : MonoBehaviour
 {
     private GameObject PreviewTile;
@@ -23,6 +25,8 @@ public class Grabber : MonoBehaviour
     private bool pose;
     public float score;
     public float scorePreview;
+    public GameObject PreviewTuilePlateau;
+    public GameObject stock;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +65,7 @@ public class Grabber : MonoBehaviour
                     }
                     else if (selectedObject.tag.Substring(0, selectedObject.tag.Length - 1) != pioche.current.Substring(0, pioche.current.Length - 1) && selectedObject.tag.Length < 3)
                     {
-                        FusionneTuile(pioche.current);
+                        PoseTuile(FusionneTuile(pioche.current), selectedObject);
                     }
                     if (pose)
                         NextTurn();
@@ -69,16 +73,91 @@ public class Grabber : MonoBehaviour
                 else
                 {
                     selectedObject = hit.collider.gameObject;
-                    if(selectedObject.tag == "vide" )
+                    if(PreviewTuilePlateau == null)
                     {
-                        scorePreview = ScoringPreview(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
+                        if (selectedObject.tag == "vide")
+                        {
+                            ChangeRender(false, selectedObject);
+                            stock = selectedObject;
+                            PreviewTuilePlateau = Instantiate(codex.TouteTuiles[pioche.current], selectedObject.transform.position, selectedObject.transform.rotation);
+                            PreviewTuilePlateau.GetComponent<Collider>().enabled = false;
+                        }
+                        else if (selectedObject.tag != pioche.current &&  selectedObject.tag.Length != 3)
+                        {
+                            ChangeRender(false, selectedObject);
+                            stock = selectedObject;
+                            PreviewTuilePlateau = Instantiate(codex.TouteTuiles[FusionneTuile(pioche.current)], selectedObject.transform.position, selectedObject.transform.rotation);
+                            PreviewTuilePlateau.GetComponent<Collider>().enabled = false;
+                        }
                     }
-                    else
+                    else  
                     {
-                        scorePreview = 0;
-                    }
-                }
+                        if (selectedObject.tag == "vide")
+                        {
+                            ChangeRender(true, stock);
+                            ChangeRender(false, selectedObject);
+                            if (PreviewTuilePlateau.tag.Length > 2)
+                            {
+                                Destroy(PreviewTuilePlateau);
+                                PreviewTuilePlateau = Instantiate(codex.TouteTuiles[pioche.current], selectedObject.transform.position, selectedObject.transform.rotation);
+                                PreviewTuilePlateau.GetComponent<Collider>().enabled = false;
 
+                            }
+                            else
+                            {
+                                PreviewTuilePlateau.transform.position = selectedObject.transform.position;
+                                stock = selectedObject;
+                            }
+                        }
+                        else if (selectedObject.tag.Length == 3)
+                        {
+                            if (stock)
+                                ChangeRender(true, stock);
+                            stock = null;
+                            Destroy(PreviewTuilePlateau);
+                            PreviewTuilePlateau = null;
+                            scorePreview = 0;
+                        }
+                        else if (selectedObject.tag.Length == 2 && selectedObject.tag != pioche.current)
+                        {
+                            if (PreviewTuilePlateau.tag == FusionneTuile(pioche.current))
+                            {
+                                PreviewTuilePlateau.transform.position = selectedObject.transform.position;
+                                stock = selectedObject;
+                            }
+                            else
+                            {
+                                ChangeRender(true, stock);
+                                Destroy(PreviewTuilePlateau);
+                                ChangeRender(false, selectedObject);
+                                stock = selectedObject;
+                                PreviewTuilePlateau = Instantiate(codex.TouteTuiles[FusionneTuile(pioche.current)], selectedObject.transform.position, selectedObject.transform.rotation);
+                                PreviewTuilePlateau.GetComponent<Collider>().enabled = false;
+                            }
+                        }
+                        else 
+                        {
+                            if (stock)
+                                ChangeRender(true, stock);
+                            stock = null;
+                            Destroy(PreviewTuilePlateau);
+                            PreviewTuilePlateau = null;
+                            scorePreview = 0;
+
+                        }
+                    }
+                    
+                }
+              
+            }
+            else
+            {
+                if(stock)
+                    ChangeRender(true, stock);
+                stock = null;
+                Destroy(PreviewTuilePlateau);
+                PreviewTuilePlateau = null;
+                scorePreview = 0;
             }
         }
         else
@@ -86,6 +165,21 @@ public class Grabber : MonoBehaviour
             Debug.Log("pêrdu");
         }
     }
+
+    public void ChangeRender(bool targetState,GameObject Target)
+    {
+        if (Target)
+        {
+            if (Target.GetComponent<MeshRenderer>())
+                Target.GetComponent<MeshRenderer>().enabled = targetState;
+            foreach (Transform child in Target.transform)
+            {
+                if (child.gameObject.GetComponent<MeshRenderer>())
+                    child.gameObject.GetComponent<MeshRenderer>().enabled = targetState;
+            }
+        }
+    }
+
 
     public void ApplyScoring()
     {
@@ -126,14 +220,14 @@ public class Grabber : MonoBehaviour
         pose = true;
     }
 
-    public void FusionneTuile(string tuileAPoser)
+    public string FusionneTuile(string tuileAPoser)
     {
         level =  GetLevelTile(selectedObject.tag);
         newtag = GetTag(selectedObject.tag);
         newtag = newtag + codex.TouteTuiles[tuileAPoser].tag.Substring(0, codex.TouteTuiles[tuileAPoser].tag.Length - 1);
         newtag = Alphabetize(newtag);
         newtag += level;
-        PoseTuile(newtag, selectedObject);
+        return newtag ;
 
     }
 

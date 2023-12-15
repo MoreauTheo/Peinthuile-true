@@ -222,6 +222,7 @@ MonoBehaviour:
   newtag: 
   score: 0
   scorePreview: 0
+  PreviewTuilePlateau: {fileID: 0}
 --- !u!114 &130649403
 MonoBehaviour:
   m_ObjectHideFlags: 0
