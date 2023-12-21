@@ -42,6 +42,7 @@ TagManager:
   - EV4
   - FV4
   - CF4
+  - EF4
   layers:
   - Default
   - TransparentFX
