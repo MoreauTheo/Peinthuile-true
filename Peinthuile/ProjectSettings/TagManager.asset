@@ -43,6 +43,8 @@ TagManager:
   - FV4
   - CF4
   - EF4
+  - CE4
+  - CV4
   layers:
   - Default
   - TransparentFX
