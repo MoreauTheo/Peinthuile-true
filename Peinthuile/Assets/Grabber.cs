@@ -27,6 +27,8 @@ public class Grabber : MonoBehaviour
     public float scorePreview;
     public GameObject PreviewTuilePlateau;
     public GameObject stock;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -148,7 +150,7 @@ public class Grabber : MonoBehaviour
                     }
                     
                 }
-              
+                scoreText.text = score.ToString() + " + " + scorePreview;
             }
             else
             {
@@ -183,6 +185,7 @@ public class Grabber : MonoBehaviour
 
     public void ApplyScoring()
     {
+        
         scoreText.text = score.ToString();
         piocheText.text = pioche.nbPioche.ToString();
     }
