@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.Mathematics;
-using System.Threading;
-using UnityEditor.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public class Grabber : MonoBehaviour
 {
@@ -27,8 +24,8 @@ public class Grabber : MonoBehaviour
     public float scorePreview;
     public GameObject PreviewTuilePlateau;
     public GameObject stock;
-    
-
+    public int palierActu = 1;
+    public float step = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -148,8 +145,8 @@ public class Grabber : MonoBehaviour
 
                         }
                     }
-                    
                 }
+                scorePreview = ScoringPreview(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
                 scoreText.text = score.ToString() + " + " + scorePreview;
             }
             else
@@ -185,9 +182,16 @@ public class Grabber : MonoBehaviour
 
     public void ApplyScoring()
     {
-        
+        if(score >= step)
+        {
+            step += palierActu * 8;
+            pioche.nbPioche += 10;
+
+
+        }
         scoreText.text = score.ToString();
         piocheText.text = pioche.nbPioche.ToString();
+
     }
 
     public void NextTurn()
