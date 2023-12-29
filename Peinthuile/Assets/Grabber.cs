@@ -117,11 +117,14 @@ public class Grabber : MonoBehaviour
                             PreviewTuilePlateau = null;
                             scorePreview = 0;
                         }
-                        else if (selectedObject.tag.Length == 2 && selectedObject.tag != pioche.current)
+                        else if (selectedObject.tag.Length == 2 && GetTag(selectedObject.tag) != GetTag(pioche.current))
                         {
                             if (PreviewTuilePlateau.tag == FusionneTuile(pioche.current))
                             {
+
                                 PreviewTuilePlateau.transform.position = selectedObject.transform.position;
+                                ChangeRender(true, stock);
+                                ChangeRender(false, selectedObject);
                                 stock = selectedObject;
                             }
                             else
@@ -161,7 +164,7 @@ public class Grabber : MonoBehaviour
         }
         else
         {
-            Debug.Log("pêrdu");
+            Debug.Log("perdu");
         }
     }
 
@@ -184,6 +187,7 @@ public class Grabber : MonoBehaviour
     {
         if(score >= step)
         {
+            palierActu++;
             step += palierActu * 8;
             pioche.nbPioche += 10;
 
@@ -245,7 +249,6 @@ public class Grabber : MonoBehaviour
         {
             if (check.tag != "vide")
             {
-                Debug.Log(check);
                 scoreSup += GetLevelTile(check.tag);
 
             }
@@ -277,7 +280,6 @@ public class Grabber : MonoBehaviour
         {
             if(check.tag != "vide")
             {
-                Debug.Log(check);
                 scoreSup += GetLevelTile(check.tag);
                 
             }
