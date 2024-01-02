@@ -26,6 +26,9 @@ public class Grabber : MonoBehaviour
     public GameObject stock;
     public int palierActu = 1;
     public float step = 10;
+    public Color sombre;
+    public Image chart;
+    public int alphaSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,7 +51,26 @@ public class Grabber : MonoBehaviour
     {
         if (pioche.nbPioche > 0)
         {
+            if(Input.GetKey(KeyCode.Tab)) 
+            {
+                if(sombre.a <0.96f)
+                {
+                    sombre.a += alphaSpeed * Time.deltaTime;
+                    if (sombre.a > 0.96f)
+                        sombre.a = 0.96f;
 
+                }
+            }
+            else
+            {
+                if (sombre.a >0)
+                {
+                    sombre.a -= alphaSpeed * Time.deltaTime;
+                    
+                }
+            }
+            
+            chart.color = sombre;
 
             RaycastHit hit = CastRay();
             if (hit.collider)
@@ -150,7 +172,7 @@ public class Grabber : MonoBehaviour
                     }
                 }
                 scorePreview = ScoringPreview(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
-                scoreText.text = score.ToString() + " + " + scorePreview;
+                scoreText.text = score.ToString() + " + " + scorePreview + " / " + step.ToString();
             }
             else
             {
@@ -193,7 +215,7 @@ public class Grabber : MonoBehaviour
 
 
         }
-        scoreText.text = score.ToString();
+        scoreText.text = score.ToString() + " / " + step.ToString();
         piocheText.text = pioche.nbPioche.ToString();
 
     }
