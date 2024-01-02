@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MovementCamera : MonoBehaviour
 {
@@ -9,14 +10,41 @@ public class MovementCamera : MonoBehaviour
     public float camSpeed;
     public float rotSpeed;
     public Transform pivot;
+    public Vector3 spawn;
+    public Color sombre;
+    public float alphaSpeed;
+    public TextMeshProUGUI spacetext;
     void Start()
     {
-        
+        pivot.position = spawn;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKey(KeyCode.Space))
+        {
+            pivot.position = spawn;
+        }
+        if (Vector3.Distance(spawn, pivot.position) > 8)
+        {
+            if (sombre.a < 1)
+            {
+                sombre.a += alphaSpeed * Time.deltaTime;
+                if (sombre.a > 1)
+                    sombre.a = 1;
+
+            }
+        }
+        else
+        {
+            if (sombre.a > 0)
+            {
+                sombre.a -= alphaSpeed * Time.deltaTime;
+
+            }
+        }
+        spacetext.faceColor = sombre;
         if (transform.position.y < 9)
         {
             if (transform.position.y > 5)
