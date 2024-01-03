@@ -40,7 +40,7 @@ public class Grabber : MonoBehaviour
         checkBoardLvlUp();
         
         pioche.Draw();
-        ApplyScoring();
+
         ChangePreview();
 
         
@@ -129,6 +129,7 @@ public class Grabber : MonoBehaviour
                                 PreviewTuilePlateau.transform.position = selectedObject.transform.position;
                                 stock = selectedObject;
                             }
+                            scorePreview = ScoringPreview(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
                         }
                         else if (selectedObject.tag.Length == 3)
                         {
@@ -158,6 +159,7 @@ public class Grabber : MonoBehaviour
                                 PreviewTuilePlateau = Instantiate(codex.TouteTuiles[FusionneTuile(pioche.current)], selectedObject.transform.position, selectedObject.transform.rotation);
                                 PreviewTuilePlateau.GetComponent<Collider>().enabled = false;
                             }
+                            scorePreview = 0;
                         }
                         else 
                         {
@@ -166,12 +168,12 @@ public class Grabber : MonoBehaviour
                             stock = null;
                             Destroy(PreviewTuilePlateau);
                             PreviewTuilePlateau = null;
-                            scorePreview = 0;
+                            scorePreview = ScoringPreview(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
 
                         }
                     }
                 }
-                scorePreview = ScoringPreview(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
+                
                 scoreText.text = score.ToString() + " + " + scorePreview + " / " + step.ToString();
             }
             else
