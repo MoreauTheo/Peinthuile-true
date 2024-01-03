@@ -38,9 +38,9 @@ public class Grabber : MonoBehaviour
         codex = GetComponent<TuileCodex>();
         pioche = GetComponent<PiocheScript>();
         checkBoardLvlUp();
-        ApplyScoring();
+        
         pioche.Draw();
-        pioche.nbPioche++;
+        ApplyScoring();
         ChangePreview();
 
         
