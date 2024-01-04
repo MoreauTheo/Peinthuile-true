@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 130649400}
   - component: {fileID: 130649402}
   - component: {fileID: 130649404}
+  - component: {fileID: 130649405}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -229,6 +230,7 @@ MonoBehaviour:
   sombre: {r: 0, g: 0, b: 0, a: 0}
   chart: {fileID: 2144468060}
   alphaSpeed: 10
+  audio: {fileID: 130649405}
 --- !u!114 &130649403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +302,38 @@ MonoBehaviour:
   - E1
   current: 
   nbPioche: 20
+--- !u!114 &130649405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130649399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 335ff046d5d443a44809e63a7640efba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: b0737d2f827a57b40b1bfe55e770ff46, type: 2}
+  sounds:
+  - name: PoseTuile
+    clip: {fileID: 8300000, guid: 6e116ba17abb31745ac3b81d623c89a7, type: 3}
+    volume: 0.637
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: PoseV
+    clip: {fileID: 8300000, guid: 6e116ba17abb31745ac3b81d623c89a7, type: 3}
+    volume: 1
+    pitch: 1.78
+    loop: 1
+    source: {fileID: 0}
+  - name: 
+    clip: {fileID: 0}
+    volume: 0.082
+    pitch: 0.1
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

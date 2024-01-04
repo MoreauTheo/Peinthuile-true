@@ -29,6 +29,7 @@ public class Grabber : MonoBehaviour
     public Color sombre;
     public Image chart;
     public int alphaSpeed;
+    public AudioManager audio;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +44,7 @@ public class Grabber : MonoBehaviour
 
         ChangePreview();
 
-        
+        audio.Play("Theme");
 
     }
     // Update is called once per frame
@@ -84,12 +85,15 @@ public class Grabber : MonoBehaviour
                         PoseTuile(pioche.current,selectedObject);
                         score += Scoring(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
                     }
-                    else if (selectedObject.tag.Substring(0, selectedObject.tag.Length - 1) != pioche.current.Substring(0, pioche.current.Length - 1) && selectedObject.tag.Length < 3)
+                    else if (GetTag(selectedObject.tag) != GetTag(pioche.current) && selectedObject.tag.Length < 3)
                     {
                         PoseTuile(FusionneTuile(pioche.current), selectedObject);
                     }
                     if (pose)
+                    {
+                        
                         NextTurn();
+                    }
                 }
                 else
                 {
@@ -251,6 +255,10 @@ public class Grabber : MonoBehaviour
         board.grille[cibleScript.posx,cibleScript.posy] = Instantiate(codex.TouteTuiles[tuileAPoser], aRemplacer.transform.position, aRemplacer.transform.rotation);
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posx = cibleScript.posx;
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posy = cibleScript.posy;
+        if(GetLevelTile(tuileAPoser) == 1)
+        {
+            audio.Play(tuileAPoser);
+        }
         Destroy(aRemplacer);
         pose = true;
     }
