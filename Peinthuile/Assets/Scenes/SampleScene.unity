@@ -221,6 +221,7 @@ MonoBehaviour:
   pposx: 0
   pposy: 0
   newtag: 
+  pose: 0
   score: 0
   scorePreview: 0
   PreviewTuilePlateau: {fileID: 0}
@@ -231,6 +232,7 @@ MonoBehaviour:
   chart: {fileID: 2144468060}
   alphaSpeed: 10
   audio: {fileID: 130649405}
+  timingLerp: 0
 --- !u!114 &130649403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1447,6 +1449,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 2c79e37b0dacd694eac223d2434575cb,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 2c79e37b0dacd694eac223d2434575cb,
+        type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
@@ -1463,7 +1470,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2c79e37b0dacd694eac223d2434575cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -29,7 +29,8 @@ public class Grabber : MonoBehaviour
     public Image chart;
     public int alphaSpeed;
     public AudioManager audio;
-    public float timingLerp
+    public float timingLerp;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +51,10 @@ public class Grabber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (timingLerp > 0)
+        {
+
+        }
         if (pioche.nbPioche > 0)
         {
             if(Input.GetKey(KeyCode.Tab)) 
@@ -212,7 +217,10 @@ public class Grabber : MonoBehaviour
         }
     }
 
+    public void Bop()
+    {
 
+    }
     public void ApplyScoring()
     {
         if(score >= step)
@@ -263,7 +271,7 @@ public class Grabber : MonoBehaviour
             audio.Play(tuileAPoser);
         }
         Destroy(aRemplacer);
-        board.grille[cibleScript.posx, cibleScript.posy].GetComponent<Animator>().SetTrigger("Pose");
+       // board.grille[cibleScript.posx, cibleScript.posy].GetComponent<Animator>().SetTrigger("Pose");
         pose = true;
     }
 
