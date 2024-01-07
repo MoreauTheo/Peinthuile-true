@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.Mathematics;
 using UnityEngine.UI;
 using TMPro;
 
@@ -19,7 +18,7 @@ public class Grabber : MonoBehaviour
     private TuileCodex codex;
     public string newtag;
     private PiocheScript pioche;
-    private bool pose;
+    public bool pose;
     public float score;
     public float scorePreview;
     public GameObject PreviewTuilePlateau;
@@ -30,6 +29,7 @@ public class Grabber : MonoBehaviour
     public Image chart;
     public int alphaSpeed;
     public AudioManager audio;
+    public float timingLerp
     // Start is called before the first frame update
     void Start()
     {
@@ -87,12 +87,14 @@ public class Grabber : MonoBehaviour
                     }
                     else if (GetTag(selectedObject.tag) != GetTag(pioche.current) && selectedObject.tag.Length < 3)
                     {
+                        Debug.Log(GetTag(selectedObject.tag) + " : " + GetTag(pioche.current));
                         PoseTuile(FusionneTuile(pioche.current), selectedObject);
                     }
                     if (pose)
                     {
                         
                         NextTurn();
+                        pose = false;
                     }
                 }
                 else
@@ -253,6 +255,7 @@ public class Grabber : MonoBehaviour
     {
         TuileConfig cibleScript = aRemplacer.GetComponent<TuileConfig>();
         board.grille[cibleScript.posx,cibleScript.posy] = Instantiate(codex.TouteTuiles[tuileAPoser], aRemplacer.transform.position, aRemplacer.transform.rotation);
+        board.grille[cibleScript.posx, cibleScript.posy].transform.Rotate(new Vector3(0, 0,60 * UnityEngine.Random.Range(1, 7)));
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posx = cibleScript.posx;
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posy = cibleScript.posy;
         if(GetLevelTile(tuileAPoser) == 1)
@@ -260,6 +263,7 @@ public class Grabber : MonoBehaviour
             audio.Play(tuileAPoser);
         }
         Destroy(aRemplacer);
+        board.grille[cibleScript.posx, cibleScript.posy].GetComponent<Animator>().SetTrigger("Pose");
         pose = true;
     }
 
