@@ -100,11 +100,15 @@ public class Grabber : MonoBehaviour
                     if (selectedObject.tag == "vide")
                     {
                         PoseTuile(pioche.current,selectedObject);
+
+                        timingLerp = 1;
                         score += Scoring(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
                     }
                     else if (GetTag(selectedObject.tag) != GetTag(pioche.current) && selectedObject.tag.Length < 3)
                     {
-                        Debug.Log(GetTag(selectedObject.tag) + " : " + GetTag(pioche.current));
+                        
+
+                        timingLerp = 1;
                         PoseTuile(FusionneTuile(pioche.current), selectedObject);
                     }
                     if (pose)
@@ -280,7 +284,6 @@ public class Grabber : MonoBehaviour
     {
         TuileConfig cibleScript = aRemplacer.GetComponent<TuileConfig>();
         board.grille[cibleScript.posx,cibleScript.posy] = Instantiate(codex.TouteTuiles[tuileAPoser], aRemplacer.transform.position, aRemplacer.transform.rotation);
-        timingLerp = 1;
         ABop = board.grille[cibleScript.posx, cibleScript.posy];
         board.grille[cibleScript.posx, cibleScript.posy].transform.Rotate(new Vector3(0, 0,60 * UnityEngine.Random.Range(1, 7)));
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posx = cibleScript.posx;
@@ -293,14 +296,20 @@ public class Grabber : MonoBehaviour
             eau.SetActive(true);
         else if(GetTag(tuileAPoser) == "C")
             champ.SetActive(true);
-        else if (GetTag(tuileAPoser) == "fv")
+        else if (GetTag(tuileAPoser) == "FV")
             fv.SetActive(true);
-        else if (GetTag(tuileAPoser) == "ef")
+        else if (GetTag(tuileAPoser) == "EF")
             ef.SetActive(true);
-        else if (GetTag(tuileAPoser) == "cf")
+        else if (GetTag(tuileAPoser) == "CF")
             cf.SetActive(true);
-        else if (GetTag(tuileAPoser) == "fv")
-            fv.SetActive(true);
+        else if (GetTag(tuileAPoser) == "EV")
+            ev.SetActive(true);
+        else if (GetTag(tuileAPoser) == "CE")
+            ce.SetActive(true);
+        else if (GetTag(tuileAPoser) == "CV")
+            cv.SetActive(true);
+
+
 
 
 
