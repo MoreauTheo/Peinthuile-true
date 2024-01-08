@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class Grabber : MonoBehaviour
 {
@@ -30,7 +31,17 @@ public class Grabber : MonoBehaviour
     public int alphaSpeed;
     public AudioManager audio;
     public float timingLerp;
-
+    public GameObject ABop;
+    public GameObject eau;
+    public GameObject village;
+    public GameObject champ;
+    public GameObject foret;
+    public GameObject fv;
+    public GameObject ef;
+    public GameObject ev;
+    public GameObject cv;
+    public GameObject cf;
+    public GameObject ce;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +64,8 @@ public class Grabber : MonoBehaviour
     {
         if (timingLerp > 0)
         {
-
+            Bop(ABop);
+            timingLerp -= Time.deltaTime*5;
         }
         if (pioche.nbPioche > 0)
         {
@@ -113,8 +125,9 @@ public class Grabber : MonoBehaviour
                             stock = selectedObject;
                             PreviewTuilePlateau = Instantiate(codex.TouteTuiles[pioche.current], selectedObject.transform.position, selectedObject.transform.rotation);
                             PreviewTuilePlateau.GetComponent<Collider>().enabled = false;
+
                         }
-                        else if (selectedObject.tag != pioche.current &&  selectedObject.tag.Length != 3)
+                        else if (GetTag(selectedObject.tag) != GetTag(pioche.current) &&  selectedObject.tag.Length != 3)
                         {
                             ChangeRender(false, selectedObject);
                             stock = selectedObject;
@@ -128,9 +141,11 @@ public class Grabber : MonoBehaviour
                         {
                             ChangeRender(true, stock);
                             ChangeRender(false, selectedObject);
+                            stock = selectedObject;
                             if (PreviewTuilePlateau.tag.Length > 2)
                             {
                                 Destroy(PreviewTuilePlateau);
+                                Debug.Log("ca se lance");
                                 PreviewTuilePlateau = Instantiate(codex.TouteTuiles[pioche.current], selectedObject.transform.position, selectedObject.transform.rotation);
                                 PreviewTuilePlateau.GetComponent<Collider>().enabled = false;
 
@@ -138,7 +153,6 @@ public class Grabber : MonoBehaviour
                             else
                             {
                                 PreviewTuilePlateau.transform.position = selectedObject.transform.position;
-                                stock = selectedObject;
                             }
                             scorePreview = ScoringPreview(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
                         }
@@ -216,10 +230,13 @@ public class Grabber : MonoBehaviour
             }
         }
     }
-
-    public void Bop()
+     
+    public void Bop(GameObject boped)
     {
-
+        if(timingLerp <= 0.5f)
+            boped.transform.position = Vector3.Lerp(new Vector3(boped.transform.position.x, 0, boped.transform.position.z), new Vector3(boped.transform.position.x, -0.3f, boped.transform.position.z), Mathf.Sqrt(1 - Mathf.Pow(timingLerp*2 - 1, 2)));
+        else
+            boped.transform.position = Vector3.Lerp(new Vector3(boped.transform.position.x, -0.3f, boped.transform.position.z), new Vector3(boped.transform.position.x, 0, boped.transform.position.z), (timingLerp - 0.5f) *2);
     }
     public void ApplyScoring()
     {
@@ -228,7 +245,7 @@ public class Grabber : MonoBehaviour
             palierActu++;
             step += palierActu * 8;
             pioche.nbPioche += 10;
-
+            audio.Play("Tuile");
 
         }
         scoreText.text = score.ToString() + " / " + step.ToString();
@@ -263,12 +280,39 @@ public class Grabber : MonoBehaviour
     {
         TuileConfig cibleScript = aRemplacer.GetComponent<TuileConfig>();
         board.grille[cibleScript.posx,cibleScript.posy] = Instantiate(codex.TouteTuiles[tuileAPoser], aRemplacer.transform.position, aRemplacer.transform.rotation);
+        timingLerp = 1;
+        ABop = board.grille[cibleScript.posx, cibleScript.posy];
         board.grille[cibleScript.posx, cibleScript.posy].transform.Rotate(new Vector3(0, 0,60 * UnityEngine.Random.Range(1, 7)));
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posx = cibleScript.posx;
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posy = cibleScript.posy;
-        if(GetLevelTile(tuileAPoser) == 1)
+        if (GetTag(tuileAPoser) == "V")
+            village.SetActive(true);
+        else if(GetTag(tuileAPoser) == "F")
+            foret.SetActive(true);
+        else if(GetTag(tuileAPoser) == "E")
+            eau.SetActive(true);
+        else if(GetTag(tuileAPoser) == "C")
+            champ.SetActive(true);
+        else if (GetTag(tuileAPoser) == "fv")
+            fv.SetActive(true);
+        else if (GetTag(tuileAPoser) == "ef")
+            ef.SetActive(true);
+        else if (GetTag(tuileAPoser) == "cf")
+            cf.SetActive(true);
+        else if (GetTag(tuileAPoser) == "fv")
+            fv.SetActive(true);
+
+
+
+
+
+
+        if (GetLevelTile(tuileAPoser) == 1 && tuileAPoser.Length <3)
         {
-            audio.Play(tuileAPoser);
+            if(tuileAPoser.Length < 3)
+                audio.Play(tuileAPoser);
+            else
+                audio.Play("Fusion");
         }
         Destroy(aRemplacer);
        // board.grille[cibleScript.posx, cibleScript.posy].GetComponent<Animator>().SetTrigger("Pose");
