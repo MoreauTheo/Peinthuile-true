@@ -7,6 +7,7 @@ public class PiocheScript : MonoBehaviour
     public List<string> poolPiochable;
     public string current;
     public int nbPioche;
+    public GameObject panel;
     void Start()
     {
     }
@@ -14,7 +15,10 @@ public class PiocheScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+     if(nbPioche == 0)
+        {
+            panel.SetActive(true);
+        }
     }
     public void Draw()
     {

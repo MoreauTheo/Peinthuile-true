@@ -26,6 +26,7 @@ public class Grabber : MonoBehaviour
     public GameObject stock;
     public int palierActu = 1;
     public float step = 10;
+    public float lastep;
     public Color sombre;
     public Image chart;
     public int alphaSpeed;
@@ -42,6 +43,7 @@ public class Grabber : MonoBehaviour
     public GameObject cv;
     public GameObject cf;
     public GameObject ce;
+    public Image bar;
     // Start is called before the first frame update
     void Start()
     {
@@ -62,6 +64,8 @@ public class Grabber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        bar.fillAmount = (score-lastep) / (step-lastep);
         if (timingLerp > 0)
         {
             Bop(ABop);
@@ -101,7 +105,7 @@ public class Grabber : MonoBehaviour
                     {
                         PoseTuile(pioche.current,selectedObject);
 
-                        timingLerp = 1;
+                        
                         score += Scoring(pioche.current, selectedObject.GetComponent<TuileConfig>().posx, selectedObject.GetComponent<TuileConfig>().posy);
                     }
                     else if (GetTag(selectedObject.tag) != GetTag(pioche.current) && selectedObject.tag.Length < 3)
@@ -237,16 +241,20 @@ public class Grabber : MonoBehaviour
      
     public void Bop(GameObject boped)
     {
-        if(timingLerp <= 0.5f)
-            boped.transform.position = Vector3.Lerp(new Vector3(boped.transform.position.x, 0, boped.transform.position.z), new Vector3(boped.transform.position.x, -0.3f, boped.transform.position.z), Mathf.Sqrt(1 - Mathf.Pow(timingLerp*2 - 1, 2)));
-        else
-            boped.transform.position = Vector3.Lerp(new Vector3(boped.transform.position.x, -0.3f, boped.transform.position.z), new Vector3(boped.transform.position.x, 0, boped.transform.position.z), (timingLerp - 0.5f) *2);
+        if(boped)
+            {
+            if (timingLerp <= 0.5f)
+                boped.transform.position = Vector3.Lerp(new Vector3(boped.transform.position.x, 0, boped.transform.position.z), new Vector3(boped.transform.position.x, -0.3f, boped.transform.position.z), Mathf.Sqrt(1 - Mathf.Pow(timingLerp * 2 - 1, 2)));
+            else
+                boped.transform.position = Vector3.Lerp(new Vector3(boped.transform.position.x, -0.3f, boped.transform.position.z), new Vector3(boped.transform.position.x, 0, boped.transform.position.z), (timingLerp - 0.5f) * 2);
+        }
     }
     public void ApplyScoring()
     {
         if(score >= step)
         {
             palierActu++;
+            lastep = step;
             step += palierActu * 8;
             pioche.nbPioche += 10;
             audio.Play("Tuile");
@@ -284,7 +292,9 @@ public class Grabber : MonoBehaviour
     {
         TuileConfig cibleScript = aRemplacer.GetComponent<TuileConfig>();
         board.grille[cibleScript.posx,cibleScript.posy] = Instantiate(codex.TouteTuiles[tuileAPoser], aRemplacer.transform.position, aRemplacer.transform.rotation);
-        ABop = board.grille[cibleScript.posx, cibleScript.posy];
+        if(timingLerp <=0)
+            ABop = board.grille[cibleScript.posx, cibleScript.posy];
+        timingLerp = 1;
         board.grille[cibleScript.posx, cibleScript.posy].transform.Rotate(new Vector3(0, 0,60 * UnityEngine.Random.Range(1, 7)));
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posx = cibleScript.posx;
         board.grille[cibleScript.posx, cibleScript.posy].GetComponent<TuileConfig>().posy = cibleScript.posy;
