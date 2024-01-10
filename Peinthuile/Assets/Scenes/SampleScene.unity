@@ -316,7 +316,7 @@ MonoBehaviour:
   - C1
   - E1
   current: 
-  nbPioche: 20
+  nbPioche: 21
   panel: {fileID: 801825806}
 --- !u!114 &130649405
 MonoBehaviour:
