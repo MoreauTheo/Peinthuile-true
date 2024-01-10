@@ -110,8 +110,8 @@ public class Grabber : MonoBehaviour
                     }
                     else if (GetTag(selectedObject.tag) != GetTag(pioche.current) && selectedObject.tag.Length < 3)
                     {
-                        
 
+                        audio.Play("Fusion");
                         timingLerp = 1;
                         PoseTuile(FusionneTuile(pioche.current), selectedObject);
                     }
