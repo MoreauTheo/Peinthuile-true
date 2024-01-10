@@ -261,7 +261,7 @@ public class Grabber : MonoBehaviour
 
         }
         scoreText.text = score.ToString() + " / " + step.ToString();
-        piocheText.text = pioche.nbPioche.ToString();
+        piocheText.text = (pioche.nbPioche-1).ToString();
 
     }
 
@@ -359,19 +359,19 @@ public class Grabber : MonoBehaviour
                 scoreSup += GetLevelTile(check.tag);
 
             }
-            if (GetTag(tuilePose) == "F" && GetTag(check.tag) == "V")
+            if (GetTag(tuilePose) == "F" && GetTag(check.tag).Contains("V"))
             {
                 scoreSup += GetLevelTile(check.tag);
             }
-            if (GetTag(tuilePose) == "V" && GetTag(check.tag) == "E")
+            if (GetTag(tuilePose) == "V" && GetTag(check.tag).Contains("E"))
             {
                 scoreSup += GetLevelTile(check.tag);
             }
-            if (GetTag(tuilePose) == "C" && GetTag(check.tag) == "F")
+            if (GetTag(tuilePose) == "C" && GetTag(check.tag).Contains("F"))
             {
                 scoreSup += GetLevelTile(check.tag);
             }
-            if (GetTag(tuilePose) == "E" && GetTag(check.tag) == "C")
+            if (GetTag(tuilePose) == "E" && GetTag(check.tag).Contains("C"))
             {
                 scoreSup += GetLevelTile(check.tag);
             }
@@ -390,19 +390,19 @@ public class Grabber : MonoBehaviour
                 scoreSup += GetLevelTile(check.tag);
                 
             }
-            if(GetTag(tuilePose) == "F" && GetTag(check.tag) == "V")
+            if(GetTag(tuilePose) == "F" && GetTag(check.tag).Contains("V"))
             {
                 scoreSup += GetLevelTile(check.tag);
             }
-            if (GetTag(tuilePose) == "V" && GetTag(check.tag) == "E")
+            if (GetTag(tuilePose) == "V" && GetTag(check.tag).Contains("E"))
             {
                 scoreSup += GetLevelTile(check.tag);
             }
-            if (GetTag(tuilePose) == "C" && GetTag(check.tag) == "F")
+            if (GetTag(tuilePose) == "C" && GetTag(check.tag).Contains("F"))
             {
                 scoreSup += GetLevelTile(check.tag);
             }
-            if (GetTag(tuilePose) == "E" && GetTag(check.tag) == "C")
+            if (GetTag(tuilePose) == "E" && GetTag(check.tag).Contains("C"))
             {
                 scoreSup += GetLevelTile(check.tag);
             }
